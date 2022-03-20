@@ -1,6 +1,7 @@
 from netpyne import specs
 from netpyne.batch import Batch
 
+
 def batchRemoveConns():
         # Create variable of type ordered dictionary (NetPyNE's customized version)
         params = specs.ODict()
@@ -14,9 +15,17 @@ def batchRemoveConns():
         b.batchLabel = 'removeEC'
         b.saveFolder = 'BatchProva'
         b.method = 'grid'
-        b.runCfg = {'type': 'mpi_bulletin',
-                                'script': 'init.py',
-                                'skip': True}
+        b.runCfg = {'type': 'hpc_slurm', 
+                        'allocation': 'default', 
+                        'walltime': '24:00:00',
+                        'nodes': 1,
+                        'coresPerNode': 96, 
+                        'email': 'eleonorabernasconi97@gmail.com',
+                        'folder': '/home/ext_eleonorabernasconi97_gmail_com/m1/sim/',  
+                        'script': 'init.py', 
+                        'mpiCommand': 'mpirun',
+                        'skip': True}
+
 
         # Run batch simulations
         b.run()
