@@ -12,8 +12,8 @@ THETA = 250.	 # msecs (4 Hz)
 
 cfg.dt = 0.05                 # Internal integration timestep to use
 cfg.verbose = 0
-cfg.duration = 1
-# cfg.duration = STARTDEL + THETA*8
+# cfg.duration = 1
+cfg.duration = STARTDEL + THETA*8
 # cfg.duration = STARTDEL + THETA
 cfg.recordStim = True
 cfg.recordStep = 0.1             # Step size in ms to save data (e.g. V traces, LFP, etc)

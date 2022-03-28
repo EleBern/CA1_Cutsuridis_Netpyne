@@ -334,7 +334,7 @@ else:
     for i in range(len(lista_EC2Pyramidal)):
         removed_EC2Pyramidal.append(i)
         
-# print(removed_EC2Pyramidal)
+print(removed_EC2Pyramidal)
 
 # Checks which CA3 cells are active in the pattern to store/recall
 lista_CA3active=[]              
