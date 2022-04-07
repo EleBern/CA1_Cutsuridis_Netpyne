@@ -1,5 +1,5 @@
 from netpyne import sim
-from neuron import gui
+#from neuron import gui
 from netpyne.specs import Dict
 # from cfg import simConfig
 # from netParams import netParams
