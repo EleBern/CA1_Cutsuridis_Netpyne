@@ -1,4 +1,5 @@
 from netpyne import sim, specs
+from neuron import gui
 import matplotlib.pyplot as plt
 import numpy as np
 import random
