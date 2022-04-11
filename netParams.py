@@ -1,5 +1,5 @@
 from netpyne import sim, specs
-from neuron import gui
+# from neuron import gui
 import matplotlib.pyplot as plt
 import numpy as np
 import random
@@ -87,29 +87,39 @@ netParams.popParams['SEP']={'cellModel': 'BurstStim2', 'numCells': nSEP, 'interv
 #############################################
 ####		IMPORT CELL PARAMETERS  #####
 #############################################
-netParams.importCellParams(label='Pyramidalcell', conds={'cellType': 'Pyramidalcell', 'cellModel': 'Pyramidal_model'}, \
-fileName='pyramidal_cell_14Vb.hoc', cellName='PyramidalCell', importSynMechs=False)
+# netParams.importCellParams(label='Pyramidalcell', conds={'cellType': 'Pyramidalcell', 'cellModel': 'Pyramidal_model'}, \
+# fileName='pyramidal_cell_14Vb.hoc', cellName='PyramidalCell', importSynMechs=False)
 
-netParams.importCellParams(label='OLMcell', conds={'cellType': 'OLMcell', 'cellModel': 'OLM_model'}, \
-fileName='olm_cell2.hoc', cellName='OLMCell', importSynMechs=False)
-#netParams.cellParams['OLMcell'].globals.Rm=20000.
+# netParams.importCellParams(label='OLMcell', conds={'cellType': 'OLMcell', 'cellModel': 'OLM_model'}, \
+# fileName='olm_cell2.hoc', cellName='OLMCell', importSynMechs=False)
+# #netParams.cellParams['OLMcell'].globals.Rm=20000.
 
-netParams.importCellParams(label='BScell', conds={'cellType': 'BScell', 'cellModel': 'BS_model'}, \
-fileName='bistratified_cell13S.hoc', cellName='BistratifiedCell', importSynMechs=False)
+# netParams.importCellParams(label='BScell', conds={'cellType': 'BScell', 'cellModel': 'BS_model'}, \
+# fileName='bistratified_cell13S.hoc', cellName='BistratifiedCell', importSynMechs=False)
 
-netParams.importCellParams(label='Basketcell', conds={'cellType': 'Basketcell', 'cellModel': 'B_model'}, \
-fileName='basket_cell17S.hoc', cellName='BasketCell', importSynMechs=False)
+# netParams.importCellParams(label='Basketcell', conds={'cellType': 'Basketcell', 'cellModel': 'B_model'}, \
+# fileName='basket_cell17S.hoc', cellName='BasketCell', importSynMechs=False)
 
-netParams.importCellParams(label='AAcell', conds={'cellType': 'AAcell', 'cellModel': 'AA_model'}, \
-fileName='axoaxonic_cell17S.hoc', cellName='AACell', importSynMechs=False)
+# netParams.importCellParams(label='AAcell', conds={'cellType': 'AAcell', 'cellModel': 'AA_model'}, \
+# fileName='axoaxonic_cell17S.hoc', cellName='AACell', importSynMechs=False)
 
-##Setting thresholds
+# ##Setting thresholds
 
-cells=['Pyramidalcell','OLMcell','BScell','Basketcell','AAcell']
+# cells=['Pyramidalcell','OLMcell','BScell','Basketcell','AAcell']
 
-for i in cells:
- 	for sec in netParams.cellParams[i].secs:
-  		netParams.cellParams[i].secs[sec].threshold = -10.0
+# for i in cells:
+#  	for sec in netParams.cellParams[i].secs:
+#   		netParams.cellParams[i].secs[sec].threshold = -10.0
+
+netParams.loadCellParamsRule(label= 'Pyramidalcell', fileName='Pyramidalcell.json')    
+    
+netParams.loadCellParamsRule(label= 'OLMcell', fileName='OLMcell.json')    
+    
+netParams.loadCellParamsRule(label= 'BScell', fileName='BScell.json')    
+    
+netParams.loadCellParamsRule(label= 'Basketcell', fileName='Basketcell.json')    
+    
+netParams.loadCellParamsRule(label= 'AAcell', fileName='AAcell.json') 
 
 #############################################
 ####		NETWORK CONNECTIONS	#####
@@ -302,39 +312,64 @@ netParams.connParams['OLM->Pyramidal'] = {
 FPATT = "Weights/pattsN100S20P1.dat"	#patterns to store: each column is a pattern. Each line is a CA1 pyramidal cell
 PATTS = np.transpose(np.loadtxt(fname=FPATT, dtype='int16')) #each column is a pattern - 100 lines (one per pyramidal cell)
 
-lista_EC2Pyramidal=[] #to check which pyr cells are active in the pattern
 
-# ##each EC cell will stimulate every active pyr cell in the pattern
-# for i in range(nEC):
-#  	for j in range(nPyramidal):
-#  		 if PATTS[PATTi][j]:
-#  			 lista_EC2Pyramidal.append([i,j])
+#lista_EC2Pyramidal=[] #to check which pyr cells are active in the pattern
+
               
 # Changed so it can work also with 0 or 1 input patterns (1D array)                      
-temp = FPATT[len("Weights/pattsN100S20"):-(len(".dat"))]
+#temp = FPATT[len("Weights/pattsN100S20"):-(len(".dat"))]
 ##each EC cell will stimulate every active pyr cell in the pattern
+#for i in range(nEC):
+#	for j in range(nPyramidal):
+#        if temp == "P0" or temp == "P1":
+#           if PATTS[j]:
+#                  lista_EC2Pyramidal.append([i,j])    
+#          elif PATTS[PATTi][j]:
+#              lista_EC2Pyramidal.append([i,j])  
+              
+# Removes random EC to CA1 synapses, this models depression 
+# Use batch simulations to study how this affects storage/recall   
+#removed_EC2Pyramidal=[]          
+#if cfg.remove_EC_Conns < len(lista_EC2Pyramidal):
+#    for i in range(cfg.remove_EC_Conns):
+#        indexToRemove = random.randrange(len(lista_EC2Pyramidal))
+#        lista_EC2Pyramidal.pop(indexToRemove) 
+#        removed_EC2Pyramidal.append(indexToRemove)
+#else:   
+#    lista_EC2Pyramidal.clear()
+#    for i in range(len(lista_EC2Pyramidal)):
+#        removed_EC2Pyramidal.append(i)
+
+lista_EC2Pyramidal=[] #to check which pyr cells are active in the pattern
+temp = FPATT[len("Weights/pattsN100S20"):-(len(".dat"))]
+
+# Generates "cfg.remove_EC_Conns" random numbers between 0 and 20
+# Those are the indexes of the EC cells that will not stimulate CA1 cells
+removed_EC2Pyramidal = []
+if cfg.remove_EC_Conns < nEC:
+    removed_EC2Pyramidal=random.sample(range(20), cfg.remove_EC_Conns)
+else: 
+    for i in range(nEC):
+        removed_EC2Pyramidal.append(i)
+removed_EC2Pyramidal.sort(reverse = True)
+
+# Generate a list with all 20 indexes of the EC cells
+EC2connect = []
 for i in range(nEC):
+    EC2connect.append(i)
+
+# Remove the indexes of the EC cells that won't be connected to CA1 cells
+for i in removed_EC2Pyramidal:
+    EC2connect.pop(i)
+
+# Create the connectivity list from EC to CA1
+for i in EC2connect:
  	for j in range(nPyramidal):
           if temp == "P0" or temp == "P1":
               if PATTS[j]:
                   lista_EC2Pyramidal.append([i,j])    
           elif PATTS[PATTi][j]:
               lista_EC2Pyramidal.append([i,j])  
-              
-# Removes random EC to CA1 synapses, this models depression 
-# Use batch simulations to study how this affects storage/recall   
-removed_EC2Pyramidal=[]          
-if len(cfg.remove_EC_Conns) < len(lista_EC2Pyramidal):
-    for i in range(cfg.remove_EC_Conns):
-        indexToRemove = random.randrange(len(lista_EC2Pyramidal))
-        lista_EC2Pyramidal.pop(indexToRemove) 
-        removed_EC2Pyramidal.append(indexToRemove)
-else:   
-    lista_EC2Pyramidal.clear()
-    for i in range(len(lista_EC2Pyramidal)):
-        removed_EC2Pyramidal.append(i)
-        
-print(removed_EC2Pyramidal)
 
 # Checks which CA3 cells are active in the pattern to store/recall
 lista_CA3active=[]              
