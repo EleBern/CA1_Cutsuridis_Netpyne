@@ -161,10 +161,10 @@ SEPDEL = 1.	# SEP delay
 #############################################
 
 ###STDP configuration
-STDPDFAC = 0.	# depression factor
-STDPPFAC = 0.	# potentiation factor
-# STDPDFAC = 0.2	# depression factor
-# STDPPFAC = 1.0	# potentiation factor
+# STDPDFAC = 0.	# depression factor
+# STDPPFAC = 0.	# potentiation factor
+STDPDFAC = 0.2	# depression factor
+STDPPFAC = 1.0	# potentiation factor
 AMPASUPP = 0.4	# fraction of AMPA during storage
 STDPTHRESH = -55.	# voltage threshold for STDP
 STDPSTART = STARTDEL+(THETA/2.)	# STDP starts at same time as EC input
@@ -361,6 +361,8 @@ for i in range(nEC):
 # Remove the indexes of the EC cells that won't be connected to CA1 cells
 for i in removed_EC2Pyramidal:
     EC2connect.pop(i)
+
+print(*removed_EC2Pyramidal, sep = ", ")
 
 # Create the connectivity list from EC to CA1
 for i in EC2connect:
