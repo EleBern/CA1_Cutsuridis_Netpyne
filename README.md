@@ -1,7 +1,7 @@
 # CA1-NetPyNE-model
 
 ## Description
-NetPyNE (www.netpyne.org) version of a model of CA1 microcircuits.
+NetPyNE (www.netpyne.org) version of a model of CA1 microcircuits. (Cutsuridis et al.)
 
 Original model and publication: https://modeldb.yale.edu/234233 
 
